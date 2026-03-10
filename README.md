@@ -1,6 +1,6 @@
-mudpuppy
+Mudpuppy
 =====
 
-Fork "mudpuppy" to create a new MOOSE-based application.
+Application for modeling plasma-liquid and related problems. Built on top of MOOSE framework and applications Zapdos and CRANE.
 
-For more information see: [https://mooseframework.inl.gov/getting_started/new_users.html#create-an-app](https://mooseframework.inl.gov/getting_started/new_users.html#create-an-app)
+Currently there is no dedicated documentation for public readership.
