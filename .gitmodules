@@ -1,0 +1,3 @@
+[submodule "zapdos"]
+	path = zapdos
+	url = https://github.com/shannon-lab/zapdos

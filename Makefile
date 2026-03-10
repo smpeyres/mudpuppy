@@ -52,12 +52,45 @@ XFEM                        := no
 
 include $(MOOSE_DIR)/modules/modules.mk
 ###############################################################################
+# squirrel
+SQUIRREL_SUBMODULE    := $(CURDIR)/zapdos/squirrel
+ifneq ($(wildcard $(SQUIRREL_SUBMODULE)/Makefile),)
+  SQUIRREL_DIR        ?= $(SQUIRREL_SUBMODULE)
+else
+  SQUIRREL_DIR        ?= $(shell dirname `pwd`)/squirrel
+endif
+APPLICATION_DIR    := $(SQUIRREL_DIR)
+APPLICATION_NAME   := squirrel
+include            $(FRAMEWORK_DIR)/app.mk
+# crane
+CRANE_SUBMODULE    := $(CURDIR)/zapdos/crane
+ifneq ($(wildcard $(CRANE_SUBMODULE)/Makefile),)
+  CRANE_DIR        ?= $(CRANE_SUBMODULE)
+else
+  CRANE_DIR        ?= $(shell dirname `pwd`)/crane
+endif
+APPLICATION_DIR    := $(CRANE_DIR)
+APPLICATION_NAME   := crane
+include            $(FRAMEWORK_DIR)/app.mk
+
+# Use the ZAPDOS submodule if it exists and ZAPDOS_DIR is not set
+ZAPDOS_SUBMODULE    := $(CURDIR)/zapdos
+ifneq ($(wildcard $(ZAPDOS_SUBMODULE)/Makefile),)
+  ZAPDOS_DIR        ?= $(ZAPDOS_SUBMODULE)
+else
+  ZAPDOS_DIR        ?= $(shell dirname `pwd`)/zapdos
+endif
+# zapdos
+APPLICATION_DIR    := $(ZAPDOS_DIR)
+APPLICATION_NAME   := zapdos
+include            $(FRAMEWORK_DIR)/app.mk
 
 # dep apps
 APPLICATION_DIR    := $(CURDIR)
 APPLICATION_NAME   := mudpuppy
 BUILD_EXEC         := yes
 GEN_REVISION       := no
+DEP_APPS           := $(shell $(FRAMEWORK_DIR)/scripts/find_dep_apps.py $(APPLICATION_NAME))
 include            $(FRAMEWORK_DIR)/app.mk
 
 ###############################################################################
