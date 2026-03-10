@@ -28,7 +28,7 @@ ALL_MODULES                 := no
 
 CHEMICAL_REACTIONS          := no
 CONTACT                     := no
-ELECTROMAGNETICS            := no
+ELECTROMAGNETICS            := yes
 EXTERNAL_PETSC_SOLVER       := no
 FLUID_PROPERTIES            := no
 FSI                         := no
@@ -37,7 +37,7 @@ GEOCHEMISTRY                := no
 HEAT_TRANSFER               := no
 LEVEL_SET                   := no
 MISC                        := no
-NAVIER_STOKES               := no
+NAVIER_STOKES               := yes
 OPTIMIZATION                := no
 PERIDYNAMICS                := no
 PHASE_FIELD                 := no
