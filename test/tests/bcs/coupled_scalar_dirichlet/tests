@@ -1,0 +1,13 @@
+[Tests]
+  [test]
+    type = 'Exodiff'
+    input = 'first_order_decay_coupled_scalar_bc.i'
+    exodiff = 'first_order_decay_coupled_scalar_bc_out.e'
+    abs_zero = 1e-12
+    rel_err = 1e-5
+    map = false
+    requirement = 'The system shall impose a Dirichlet boundary condition from a coupled scalar variable.'
+    design = 'CoupledScalarDirichletBC.md'
+    issues = '#1'
+  []
+[]
