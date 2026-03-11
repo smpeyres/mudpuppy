@@ -69,6 +69,36 @@ D_A = 1e-9 # m^2/s
   []
 []
 
+[AuxVariables]
+  [A_analytical]
+  []
+[]
+
+[AuxKernels]
+  [A_analytical_kern]
+    type = FunctionAux
+    variable = A_analytical
+    function = A_exact
+  []
+[]
+
+[Functions]
+  [A_exact]
+    type = ParsedFunction
+    expression = '(J_0 / sqrt(D_A * k_A)) * exp(-sqrt(k_A / D_A) * x)'
+    symbol_names = 'J_0 D_A k_A'
+    symbol_values = '${J_0} ${D_A} ${k_A}'
+  []
+[]
+
+[Postprocessors]
+  [L2_error]
+    type = ElementL2Error
+    variable = A
+    function = A_exact
+  []
+[]
+
 [Preconditioning]
   [smp]
     type = SMP
