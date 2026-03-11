@@ -1,0 +1,89 @@
+# 1D reaction-diffusion: D_A * d^2A/dx^2 = k_A * A
+# Neumann BC at x=0: A'(0) = -J_0/D_A
+# Dirichlet BC at x=delta: A(delta) = 0
+
+dom0Scale = 1.0
+delta = 1e-6 # m
+k_A = 1e6 # 1/s
+J_0 = 1e-2 # mol/m^2/s
+D_A = 1e-9 # m^2/s
+
+[Mesh]
+  type = GeneratedMesh
+  dim = 1
+  nx = 100
+  xmax = ${delta}
+[]
+
+[Problem]
+  type = FEProblem
+[]
+
+[Variables]
+  [A]
+  []
+[]
+
+[Kernels]
+  [A_diffusion]
+    type = CoeffDiffusionLin
+    variable = A
+    position_units = ${dom0Scale}
+  []
+[]
+
+[Reactions]
+  [decay]
+    species = 'A'
+    reaction_coefficient_format = 'rate'
+    use_log = false
+    use_ad = true
+    block = 0
+    reactions = 'A -> B: ${k_A}' # B is untracked and only used to define the reaction
+  []
+[]
+
+[Materials]
+  [A_mat]
+    type = ADHeavySpecies
+    heavy_species_name = A
+    heavy_species_mass = 6.64e-26 # unused but required
+    heavy_species_charge = 0.0 # unused but required
+    diffusivity = ${D_A}
+    potential_units = V # unused but required
+  []
+[]
+
+[BCs]
+  [left_flux]
+    type = NeumannBC
+    variable = A
+    boundary = 'left'
+    value = ${J_0} # outward normal is -x, so positive argument gives negative slope
+  []
+  [right_zero]
+    type = DirichletBC
+    variable = A
+    boundary = 'right'
+    value = 0
+  []
+[]
+
+[Preconditioning]
+  [smp]
+    type = SMP
+    full = true
+  []
+[]
+
+[Executioner]
+  type = Steady
+  solve_type = NEWTON
+  petsc_options_iname = '-pc_type'
+  petsc_options_value = 'lu'
+  nl_rel_tol = 1e-12
+[]
+
+[Outputs]
+  exodus = true
+[]
