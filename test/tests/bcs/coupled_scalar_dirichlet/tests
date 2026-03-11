@@ -1,5 +1,7 @@
 [Tests]
-  [test]
+  design = 'CoupledScalarDirichletBC.md'
+  issues = '#1'
+  [first_order_decay]
     type = 'Exodiff'
     input = 'first_order_decay_coupled_scalar_bc.i'
     exodiff = 'first_order_decay_coupled_scalar_bc_out.e'
@@ -7,7 +9,23 @@
     rel_err = 1e-5
     map = false
     requirement = 'The system shall impose a Dirichlet boundary condition from a coupled scalar variable.'
-    design = 'CoupledScalarDirichletBC.md'
-    issues = '#1'
+  []
+  [decaying_bulk_match]
+    type = 'Exodiff'
+    input = 'decaying_bulk_match.i'
+    exodiff = 'decaying_bulk_match_out.e'
+    abs_zero = 1e-8
+    rel_err = 1e-5
+    map = false
+    requirement = 'The system shall couple a decaying scalar variable to a field variable Dirichlet BC in a transient solve, matching the analytical exponential decay.'
+  []
+  [decaying_bulk_match_csv]
+    type = 'CSVDiff'
+    input = 'decaying_bulk_match.i'
+    csvdiff = 'decaying_bulk_match_out.csv'
+    abs_zero = 1e-8
+    rel_err = 1e-4
+    prereq = 'decaying_bulk_match'
+    requirement = 'The scalar variable A_bulk shall decay as exp(-k*t) and the relative error between the numerical and analytical values shall remain small.'
   []
 []
