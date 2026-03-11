@@ -56,22 +56,17 @@ B_B = 1 # mol/m^3
   []
 []
 
+
 [Materials]
-  [A_mat]
-    type = ADHeavySpecies
-    heavy_species_name = A
-    heavy_species_mass = 6.64e-26 # unused but required
-    heavy_species_charge = 0.0 # unused but required
-    diffusivity = ${D_A}
-    potential_units = V # unused but required
+  [A_diffusivity]
+    type = ADGenericConstantMaterial
+    prop_names = 'diffA'
+    prop_values = '${D_A}'
   []
-  [B_mat]
-    type = ADHeavySpecies
-    heavy_species_name = B
-    heavy_species_mass = 6.64e-26 # unused but required
-    heavy_species_charge = 0.0 # unused but required
-    diffusivity = ${D_B}
-    potential_units = V # unused but required
+  [B_diffusivity]
+    type = ADGenericConstantMaterial
+    prop_names = 'diffB'
+    prop_values = '${D_B}'
   []
 []
 

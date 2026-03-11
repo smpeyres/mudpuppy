@@ -44,13 +44,10 @@ D_A = 1e-9 # m^2/s
 []
 
 [Materials]
-  [A_mat]
-    type = ADHeavySpecies
-    heavy_species_name = A
-    heavy_species_mass = 6.64e-26 # unused but required
-    heavy_species_charge = 0.0 # unused but required
-    diffusivity = ${D_A}
-    potential_units = V # unused but required
+  [A_diffusivity]
+    type = ADGenericConstantMaterial
+    prop_names = 'diffA'
+    prop_values = '${D_A}'
   []
 []
 
