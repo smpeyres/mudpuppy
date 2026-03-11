@@ -1,0 +1,12 @@
+[Tests]
+  design = 'SideDiffusiveFluxIntegralLin.md'
+  issues = '#2'
+  [steady_flux]
+    type = 'CSVDiff'
+    input = 'steady_flux.i'
+    csvdiff = 'steady_flux_out.csv'
+    abs_zero = 1e-12
+    rel_err = 1e-6
+    requirement = 'SideDiffusiveFluxIntegralLin shall compute the correct boundary diffusive flux for a steady-state linear concentration profile using an AD material property from the element interior.'
+  []
+[]

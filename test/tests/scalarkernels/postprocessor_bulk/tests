@@ -1,0 +1,22 @@
+[Tests]
+  design = 'PostprocessorBulkScalarKernel.md SideDiffusiveFluxIntegralLin.md'
+  issues = '#2'
+  [bulk_depletion_exodus]
+    type = 'Exodiff'
+    input = 'bulk_depletion_test.i'
+    exodiff = 'bulk_depletion_test_out.e'
+    abs_zero = 1e-8
+    rel_err = 1e-5
+    map = false
+    requirement = 'The system shall couple a scalar bulk ODE to a diffusion film via PostprocessorBulkScalarKernel and SideDiffusiveFluxIntegralLin, with the bulk concentration decaying toward the fixed boundary value.'
+  []
+  [bulk_depletion_csv]
+    type = 'CSVDiff'
+    input = 'bulk_depletion_test.i'
+    csvdiff = 'bulk_depletion_test_out.csv'
+    abs_zero = 1e-8
+    rel_err = 1e-3
+    prereq = 'bulk_depletion_exodus'
+    requirement = 'The scalar variable C_bulk shall decay approximately as the quasi-steady analytical solution, with relative error below 1e-3.'
+  []
+[]
