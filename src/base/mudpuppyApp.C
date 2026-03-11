@@ -3,6 +3,7 @@
 #include "AppFactory.h"
 #include "ModulesApp.h"
 #include "MooseSyntax.h"
+#include "ZapdosApp.h"
 
 InputParameters
 mudpuppyApp::validParams()
@@ -24,6 +25,7 @@ void
 mudpuppyApp::registerAll(Factory & f, ActionFactory & af, Syntax & syntax)
 {
   ModulesApp::registerAllObjects<mudpuppyApp>(f, af, syntax);
+  ZapdosApp::registerAll(f, af, syntax);
   Registry::registerObjectsTo(f, {"mudpuppyApp"});
   Registry::registerActionsTo(af, {"mudpuppyApp"});
 
@@ -33,6 +35,7 @@ mudpuppyApp::registerAll(Factory & f, ActionFactory & af, Syntax & syntax)
 void
 mudpuppyApp::registerApps()
 {
+  ZapdosApp::registerApps();
   registerApp(mudpuppyApp);
 }
 
