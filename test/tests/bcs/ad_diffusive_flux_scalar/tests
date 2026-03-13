@@ -1,0 +1,22 @@
+[Tests]
+  design = 'ADDiffusiveFluxScalarBC.md'
+  issues = '#2'
+  [bulk_depletion_exodus]
+    type = 'Exodiff'
+    input = 'bulk_depletion_ad.i'
+    exodiff = 'bulk_depletion_ad_out.e'
+    abs_zero = 1e-8
+    rel_err = 1e-5
+    map = false
+    requirement = 'The system shall couple a scalar bulk ODE to a diffusion film via ADDiffusiveFluxScalarBC, assembling the boundary flux integral directly into the scalar variable residual with a correct AD Jacobian.'
+  []
+  [bulk_depletion_csv]
+    type = 'CSVDiff'
+    input = 'bulk_depletion_ad.i'
+    csvdiff = 'bulk_depletion_ad_out.csv'
+    abs_zero = 1e-8
+    rel_err = 1e-3
+    prereq = 'bulk_depletion_exodus'
+    requirement = 'The scalar variable C_bulk shall decay approximately as the quasi-steady analytical solution, with relative error below 1e-3, when using ADDiffusiveFluxScalarBC for the flux coupling.'
+  []
+[]
