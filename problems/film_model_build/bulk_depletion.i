@@ -113,22 +113,6 @@ dom0Scale = 1.0 # scaling factor for position units
 []
 
 [Postprocessors]
-  # Compute integral of diffusive flux on right boundary:
-  #   SideDiffusiveFluxIntegral = integral of (-D * grad(C) . n_hat) dA
-  # For 1D with unit cross section, this is -D * dC/dx at x=delta
-  [boundary_flux]
-    type = SideDiffusiveFluxIntegralLin
-    variable = C
-    boundary = 'right'
-    execute_on = 'initial nonlinear linear timestep_end'
-  []
-  # Scale by -A/V for the scalar kernel
-  [scaled_boundary_flux]
-    type = ScalePostprocessor
-    value = boundary_flux
-    scaling_factor = '${fparse -A_cross / V_bulk}'
-    execute_on = 'initial nonlinear linear timestep_end'
-  []
   # Track C_bulk value
   [C_bulk_value]
     type = ScalarVariable
