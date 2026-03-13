@@ -22,13 +22,13 @@
 #   Therefore: pp_value = -(A/V) * SideDiffusiveFluxIntegral
 #   i.e. scaling_factor = -A/V
 
-delta = 1e-4     # m, film thickness
-D_C = 1e-9       # m^2/s, diffusivity
-C_0 = 0.1        # mol/m^3, fixed boundary concentration
-C_bulk_0 = 1.0   # mol/m^3, initial bulk concentration
-A_cross = 1e-4   # m^2, interfacial area
-V_bulk = 1e-6    # m^3, bulk volume
-dom0Scale = 1.0   # scaling factor for position units
+delta = 1e-4 # m, film thickness
+D_C = 1e-9 # m^2/s, diffusivity
+C_0 = 0.1 # mol/m^3, fixed boundary concentration
+C_bulk_0 = 1.0 # mol/m^3, initial bulk concentration
+A_cross = 1e-4 # m^2, interfacial area
+V_bulk = 1e-6 # m^3, bulk volume
+dom0Scale = 1.0 # scaling factor for position units
 
 # Derived: time constant = V*delta/(A*D) = 1e-6 * 1e-4 / (1e-4 * 1e-9) = 1000 s
 # So we run for ~5 time constants = 5000 s
@@ -79,11 +79,6 @@ dom0Scale = 1.0   # scaling factor for position units
     type = ODETimeDerivative
     variable = C_bulk
   []
-  [C_bulk_flux_sink]
-    type = PostprocessorBulkScalarKernel
-    variable = C_bulk
-    postprocessor = scaled_boundary_flux
-  []
 []
 
 [Materials]
@@ -107,6 +102,14 @@ dom0Scale = 1.0   # scaling factor for position units
     boundary = 'right'
     coupled_scalar = C_bulk
   []
+  [C_bulk_flux]
+    type = ADDiffusiveFluxScalarBC
+    variable = C
+    scalar_variable = C_bulk
+    boundary = 'right'
+    diffusivity = 'diffC'
+    scaling_factor = '${fparse -A_cross / V_bulk}'
+  []
 []
 
 [Postprocessors]
@@ -123,7 +126,7 @@ dom0Scale = 1.0   # scaling factor for position units
   [scaled_boundary_flux]
     type = ScalePostprocessor
     value = boundary_flux
-    scaling_factor = ${fparse -A_cross / V_bulk}
+    scaling_factor = '${fparse -A_cross / V_bulk}'
     execute_on = 'initial nonlinear linear timestep_end'
   []
   # Track C_bulk value
